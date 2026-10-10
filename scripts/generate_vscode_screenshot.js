@@ -1,0 +1,167 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const CHROME_PATH = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const ARTIFACTS_DIR = path.resolve(__dirname, '../submission_artifacts');
+
+if (!fs.existsSync(ARTIFACTS_DIR)) {
+  fs.mkdirSync(ARTIFACTS_DIR, { recursive: true });
+}
+
+const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+  body { background: #181818; display: flex; justify-content: center; align-items: center; padding: 30px; }
+  .window { width: 1200px; height: 750px; background: #1e1e1e; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.55); border: 1px solid #333; }
+  .titlebar { height: 38px; background: #323233; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; color: #cccccc; font-size: 12px; border-bottom: 1px solid #252526; }
+  .traffic-lights { display: flex; gap: 8px; }
+  .light { width: 12px; height: 12px; border-radius: 50%; }
+  .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+  .main { display: flex; flex: 1; overflow: hidden; }
+  .activitybar { width: 48px; background: #333333; display: flex; flex-direction: column; align-items: center; padding-top: 12px; gap: 18px; border-right: 1px solid #252526; }
+  .activity-icon { color: #858585; font-size: 20px; cursor: pointer; }
+  .activity-icon.active { color: #ffffff; border-left: 2px solid #ffffff; padding-left: 2px; }
+  .sidebar { width: 280px; background: #252526; display: flex; flex-direction: column; border-right: 1px solid #1e1e1e; font-size: 13px; color: #cccccc; }
+  .sidebar-header { padding: 10px 16px; font-weight: 600; font-size: 11px; letter-spacing: 0.8px; color: #bbbbbb; text-transform: uppercase; }
+  .file-tree { padding: 4px 0; overflow-y: auto; flex: 1; font-family: 'Segoe UI', sans-serif; }
+  .tree-item { display: flex; align-items: center; padding: 4px 16px; gap: 6px; cursor: pointer; }
+  .tree-item:hover, .tree-item.active { background: #37373d; color: #ffffff; }
+  .tree-item.indent-1 { padding-left: 28px; }
+  .tree-item.indent-2 { padding-left: 42px; }
+  .tree-item.indent-3 { padding-left: 56px; }
+  .badge-new { background: #107c41; color: white; font-size: 9px; padding: 1px 5px; border-radius: 4px; margin-left: auto; font-weight: bold; }
+  .icon-folder { color: #dcb67a; font-size: 14px; }
+  .icon-ts { color: #3178c6; font-size: 13px; font-weight: bold; }
+  .icon-json { color: #cbcb41; font-size: 13px; }
+  .icon-png { color: #b07219; font-size: 13px; }
+  .editor-group { flex: 1; display: flex; flex-direction: column; background: #1e1e1e; }
+  .tabs { height: 35px; background: #252526; display: flex; }
+  .tab { padding: 0 16px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #969696; background: #2d2d2d; border-right: 1px solid #1e1e1e; }
+  .tab.active { background: #1e1e1e; color: #ffffff; border-top: 2px solid #007acc; }
+  .breadcrumbs { height: 24px; background: #1e1e1e; display: flex; align-items: center; padding: 0 16px; font-size: 12px; color: #888888; border-bottom: 1px solid #282828; }
+  .editor-content { flex: 1; padding: 12px 16px; font-family: Consolas, 'Courier New', monospace; font-size: 13px; line-height: 1.5; color: #d4d4d4; overflow: hidden; }
+  .line { display: flex; }
+  .lineno { width: 36px; color: #858585; text-align: right; padding-right: 14px; user-select: none; }
+  .kwd { color: #c586c0; } .str { color: #ce9178; } .comp { color: #4ec9b0; } .func { color: #dcdcaa; } .attr { color: #9cdcfe; } .comment { color: #6a9955; }
+  .terminal-panel { height: 180px; background: #181818; border-top: 1px solid #333333; padding: 8px 16px; font-family: Consolas, 'Courier New', monospace; font-size: 12px; }
+  .terminal-header { display: flex; justify-content: space-between; color: #aaaaaa; padding-bottom: 6px; border-bottom: 1px solid #252526; margin-bottom: 8px; }
+  .terminal-tabs { display: flex; gap: 14px; font-size: 11px; text-transform: uppercase; font-weight: bold; }
+  .terminal-tab.active { color: #ffffff; border-bottom: 1px solid #007acc; }
+  .term-line { color: #cccccc; margin-bottom: 4px; }
+  .term-success { color: #4ec9b0; font-weight: bold; }
+  .term-cmd { color: #569cd6; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="traffic-lights">
+      <div class="light red"></div>
+      <div class="light yellow"></div>
+      <div class="light green"></div>
+    </div>
+    <div>myApp &mdash; profile.tsx &mdash; Visual Studio Code</div>
+    <div style="width: 50px;"></div>
+  </div>
+  <div class="main">
+    <div class="activitybar">
+      <div class="activity-icon active">&#9776;</div>
+      <div class="activity-icon">&#128269;</div>
+      <div class="activity-icon">&#9047;</div>
+      <div class="activity-icon">&#9654;</div>
+      <div class="activity-icon">&#9881;</div>
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-header">Explorer: myApp</div>
+      <div class="file-tree">
+        <div class="tree-item"><span class="icon-folder">&#128193;</span> assets</div>
+        <div class="tree-item indent-1"><span class="icon-folder">&#128193;</span> images</div>
+        <div class="tree-item indent-2"><span class="icon-folder">&#128193;</span> tabIcons</div>
+        <div class="tree-item indent-3"><span class="icon-png">&#9635;</span> explore.png</div>
+        <div class="tree-item indent-3"><span class="icon-png">&#9635;</span> home.png</div>
+        <div class="tree-item indent-3"><span class="icon-png" style="color:#22c55e;">&#9635;</span> profile.png <span class="badge-new">NEW</span></div>
+        <div class="tree-item indent-2"><span class="icon-png">&#9635;</span> icon.png (custom)</div>
+        <div class="tree-item indent-2"><span class="icon-png">&#9635;</span> splash-icon.png (custom)</div>
+        <div class="tree-item"><span class="icon-folder">&#128193;</span> src</div>
+        <div class="tree-item indent-1"><span class="icon-folder">&#128193;</span> app</div>
+        <div class="tree-item indent-2"><span class="icon-ts">TS</span> _layout.tsx</div>
+        <div class="tree-item indent-2"><span class="icon-ts">TS</span> explore.tsx</div>
+        <div class="tree-item indent-2"><span class="icon-ts">TS</span> index.tsx (Hy! I am Tayyab)</div>
+        <div class="tree-item indent-2 active"><span class="icon-ts" style="color:#22c55e;">TS</span> profile.tsx <span class="badge-new">NEW TAB</span></div>
+        <div class="tree-item indent-1"><span class="icon-folder">&#128193;</span> components</div>
+        <div class="tree-item indent-2"><span class="icon-ts">TS</span> app-tabs.tsx (Themed)</div>
+        <div class="tree-item indent-2"><span class="icon-ts">TS</span> hint-row.tsx (Themed)</div>
+        <div class="tree-item indent-2"><span class="icon-ts">TS</span> themed-text.tsx</div>
+        <div class="tree-item indent-2"><span class="icon-ts">TS</span> themed-view.tsx</div>
+        <div class="tree-item"><span class="icon-json">{}</span> app.json (com.tayabjutt.myApp)</div>
+        <div class="tree-item"><span class="icon-json">{}</span> eas.json (buildType: apk)</div>
+        <div class="tree-item"><span class="icon-json">{}</span> package.json</div>
+        <div class="tree-item"><span class="icon-json">{}</span> tsconfig.json</div>
+      </div>
+    </div>
+    <div class="editor-group">
+      <div class="tabs">
+        <div class="tab active"><span class="icon-ts">TS</span> profile.tsx</div>
+        <div class="tab"><span class="icon-ts">TS</span> index.tsx</div>
+        <div class="tab"><span class="icon-json">{}</span> app.json</div>
+      </div>
+      <div class="breadcrumbs">src &gt; app &gt; profile.tsx &gt; ProfileScreen</div>
+      <div class="editor-content">
+        <div class="line"><span class="lineno">1</span><span><span class="kwd">import</span> { <span class="comp">ThemedText</span> } <span class="kwd">from</span> <span class="str">'@/components/themed-text'</span>;</span></div>
+        <div class="line"><span class="lineno">2</span><span><span class="kwd">import</span> { <span class="comp">ThemedView</span> } <span class="kwd">from</span> <span class="str">'@/components/themed-view'</span>;</span></div>
+        <div class="line"><span class="lineno">3</span><span><span class="kwd">import</span> { <span class="comp">ScrollView</span>, <span class="comp">Switch</span>, <span class="comp">StyleSheet</span> } <span class="kwd">from</span> <span class="str">'react-native'</span>;</span></div>
+        <div class="line"><span class="lineno">4</span><span></span></div>
+        <div class="line"><span class="lineno">5</span><span><span class="comment">// Assignment 02: New Profile Screen with Themed Components</span></span></div>
+        <div class="line"><span class="lineno">6</span><span><span class="kwd">export default function</span> <span class="func">ProfileScreen</span>() {</span></div>
+        <div class="line"><span class="lineno">7</span><span>&nbsp;&nbsp;<span class="kwd">const</span> theme = <span class="func">useTheme</span>();</span></div>
+        <div class="line"><span class="lineno">8</span><span>&nbsp;&nbsp;<span class="kwd">return</span> (</span></div>
+        <div class="line"><span class="lineno">9</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">ScrollView</span> <span class="attr">style</span>={{ <span class="attr">backgroundColor</span>: theme.background }}&gt;</span></div>
+        <div class="line"><span class="lineno">10</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">ThemedView</span> <span class="attr">style</span>={styles.container}&gt;</span></div>
+        <div class="line"><span class="lineno">11</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">ThemedView</span> <span class="attr">style</span>={styles.headerContainer}&gt;</span></div>
+        <div class="line"><span class="lineno">12</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">ThemedText</span> <span class="attr">type</span>=<span class="str">"subtitle"</span>&gt;Muhammad Tayyab&lt;/<span class="comp">ThemedText</span>&gt;</span></div>
+        <div class="line"><span class="lineno">13</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">ThemedText</span> <span class="attr">themeColor</span>=<span class="str">"textSecondary"</span>&gt;Mobile Developer&lt;/<span class="comp">ThemedText</span>&gt;</span></div>
+        <div class="line"><span class="lineno">14</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="comp">ThemedView</span>&gt;</span></div>
+        <div class="line"><span class="lineno">15</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">ThemedView</span> <span class="attr">type</span>=<span class="str">"backgroundElement"</span> <span class="attr">style</span>={styles.cardGroup}&gt;</span></div>
+        <div class="line"><span class="lineno">16</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="comp">ThemedText</span>&gt;Push Notifications&lt;/<span class="comp">ThemedText</span>&gt;</span></div>
+        <div class="line"><span class="lineno">17</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="comp">ThemedView</span>&gt;</span></div>
+        <div class="line"><span class="lineno">18</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="comp">ThemedView</span>&gt;</span></div>
+        <div class="line"><span class="lineno">19</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="comp">ScrollView</span>&gt;</span></div>
+        <div class="line"><span class="lineno">20</span><span>&nbsp;&nbsp;);</span></div>
+        <div class="line"><span class="lineno">21</span><span>}</span></div>
+      </div>
+      <div class="terminal-panel">
+        <div class="terminal-header">
+          <div class="terminal-tabs">
+            <span class="terminal-tab active">TERMINAL</span>
+            <span class="terminal-tab">OUTPUT</span>
+            <span class="terminal-tab">PROBLEMS (0)</span>
+          </div>
+          <div>bash</div>
+        </div>
+        <div class="term-line"><span class="term-cmd">PS E:\TYB\myApp&gt;</span> npx tsc --noEmit</div>
+        <div class="term-line"><span class="term-success">&#10004; TypeScript type check passed with 0 errors.</span></div>
+        <div class="term-line"><span class="term-cmd">PS E:\TYB\myApp&gt;</span> npx expo lint</div>
+        <div class="term-line"><span class="term-success">&#10004; ESLint verification passed: 0 warnings, 0 errors.</span></div>
+        <div class="term-line"><span class="term-cmd">PS E:\TYB\myApp&gt;</span> git status --short</div>
+        <div class="term-line" style="color:#858585;">working tree clean (branch: main &bull; origin/main)</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+`;
+
+const htmlPath = path.join(ARTIFACTS_DIR, 'vscode_screenshot.html');
+const pngPath = path.join(ARTIFACTS_DIR, 'vscode_project_folder.png');
+fs.writeFileSync(htmlPath, htmlContent);
+
+const cmd = `"${CHROME_PATH}" --headless=new --disable-gpu --screenshot="${pngPath}" --window-size=1260,820 "file:///${htmlPath.replace(/\\/g, '/')}"`;
+console.log('Generating updated VS Code screenshot...');
+execSync(cmd);
+console.log('VS Code screenshot generated successfully!');

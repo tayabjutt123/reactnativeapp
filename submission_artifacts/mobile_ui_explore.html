@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { background: #0b0c10; display: flex; justify-content: center; align-items: center; padding: 20px; }
+  .phone-frame {
+    width: 375px;
+    height: 812px;
+    background: #000000;
+    border-radius: 48px;
+    box-shadow: 0 0 0 12px #22252a, 0 0 0 14px #3b4252, 0 30px 70px rgba(0,0,0,0.85);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #444;
+  }
+  .dynamic-island {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 124px;
+    height: 32px;
+    background: #000000;
+    border-radius: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+  .camera-dot { width: 10px; height: 10px; border-radius: 50%; background: #1a1e28; }
+  .status-bar {
+    height: 48px;
+    padding: 14px 24px 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 999;
+  }
+  .status-icons { display: flex; gap: 6px; align-items: center; font-size: 11px; }
+  .screen-content {
+    flex: 1;
+    overflow-y: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .bottom-tab-bar {
+    height: 84px;
+    background: rgba(18, 19, 26, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-around;
+    padding-top: 10px;
+    padding-bottom: 24px;
+    z-index: 900;
+  }
+  .tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #71717a;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .tab-item.active {
+    color: #38bdf8;
+    font-weight: 600;
+  }
+  .tab-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .home-bar {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 134px;
+    height: 5px;
+    background: #ffffff;
+    border-radius: 3px;
+    opacity: 0.8;
+    z-index: 1000;
+  }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="dynamic-island"><div class="camera-dot"></div></div>
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="status-icons">
+      <span>5G</span>
+      <span>100%</span>
+    </div>
+  </div>
+  <div class="screen-content">
+    
+<div style="flex: 1; background: #12131a; display: flex; flex-direction: column; padding: 18px; gap: 14px;">
+  <div style="text-align: center; margin-top: 10px;">
+    <h2 style="color: #ffffff; font-size: 26px; font-weight: 700;">Explore</h2>
+    <p style="color: #a1a1aa; font-size: 13px; margin-top: 4px;">This starter app includes example code to help you get started.</p>
+    <div style="display: inline-flex; align-items: center; gap: 6px; background: #222330; padding: 6px 14px; border-radius: 16px; margin-top: 10px;">
+      <span style="color: #38bdf8; font-size: 12px; font-weight: 600;">Expo documentation &#8599;</span>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+    <div style="background: #1c1d27; border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255, 255, 255, 0.05);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="color: #38bdf8;">&#9656;</span>
+        <span style="color: #ffffff; font-size: 14px; font-weight: 600;">File-based routing (3 Tabs)</span>
+      </div>
+      <span style="color: #71717a; font-size: 12px;">Expo Router</span>
+    </div>
+
+    <div style="background: #1c1d27; border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255, 255, 255, 0.05);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="color: #38bdf8;">&#9656;</span>
+        <span style="color: #ffffff; font-size: 14px; font-weight: 600;">Android, iOS &amp; Web support</span>
+      </div>
+      <span style="color: #71717a; font-size: 12px;">Cross-Platform</span>
+    </div>
+
+    <div style="background: #1c1d27; border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255, 255, 255, 0.05);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="color: #38bdf8;">&#9656;</span>
+        <span style="color: #ffffff; font-size: 14px; font-weight: 600;">Images &amp; Vector Assets</span>
+      </div>
+      <span style="color: #71717a; font-size: 12px;">expo-image</span>
+    </div>
+
+    <div style="background: #1c1d27; border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255, 255, 255, 0.05);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="color: #38bdf8;">&#9656;</span>
+        <span style="color: #ffffff; font-size: 14px; font-weight: 600;">Light &amp; Dark mode</span>
+      </div>
+      <span style="color: #71717a; font-size: 12px;">Themed</span>
+    </div>
+
+    <div style="background: #1c1d27; border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255, 255, 255, 0.05);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="color: #38bdf8;">&#9656;</span>
+        <span style="color: #ffffff; font-size: 14px; font-weight: 600;">Reanimated 4 Animations</span>
+      </div>
+      <span style="color: #71717a; font-size: 12px;">Worklets</span>
+    </div>
+  </div>
+</div>
+
+  </div>
+  
+  <div class="bottom-tab-bar">
+    <div class="tab-item ">
+      <div class="tab-icon">&#8962;</div>
+      <span>Home</span>
+    </div>
+    <div class="tab-item active">
+      <div class="tab-icon">&#9678;</div>
+      <span>Explore</span>
+    </div>
+    <div class="tab-item ">
+      <div class="tab-icon">&#9881;</div>
+      <span>Profile</span>
+    </div>
+  </div>
+  <div class="home-bar"></div>
+  
+</div>
+</body>
+</html>
+  

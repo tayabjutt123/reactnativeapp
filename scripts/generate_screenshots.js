@@ -10,7 +10,6 @@ if (!fs.existsSync(ARTIFACTS_DIR)) {
 }
 
 const iconB64 = fs.readFileSync(path.resolve(__dirname, '../assets/images/icon.png')).toString('base64');
-const splashB64 = fs.readFileSync(path.resolve(__dirname, '../assets/images/splash-icon.png')).toString('base64');
 
 function phoneWrapper(content, activeTab = 'index') {
   return `
@@ -165,37 +164,44 @@ const splashContent = `
 </div>
 `;
 
-// 2. Home Screen
+// 2. Home Screen (Tayyab's Extended Assignment Screen)
 const homeContent = `
-<div style="flex: 1; background: #12131a; display: flex; flex-direction: column; align-items: center; padding: 20px; justify-content: space-between;">
-  <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px; gap: 16px;">
-    <div style="width: 110px; height: 110px; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 35px rgba(56, 189, 248, 0.3); border: 2px solid rgba(56, 189, 248, 0.4);">
+<div style="flex: 1; background: #12131a; display: flex; flex-direction: column; align-items: center; padding: 18px; justify-content: space-between;">
+  <div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px; gap: 10px;">
+    <div style="width: 88px; height: 88px; border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3); border: 2px solid rgba(56, 189, 248, 0.4);">
       <img src="data:image/png;base64,${iconB64}" style="width: 100%; height: 100%; object-fit: cover;" />
     </div>
-    <h1 style="color: #ffffff; font-size: 30px; font-weight: 700; text-align: center;">Welcome to Expo</h1>
-    <div style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; font-family: monospace; font-size: 11px; font-weight: bold; padding: 4px 12px; border-radius: 12px; letter-spacing: 1.5px;">
-      GET STARTED
+    <h1 style="color: #ffffff; font-size: 26px; font-weight: 700; text-align: center;">Hy! I am Tayyab</h1>
+    <p style="color: #a1a1aa; font-size: 13px; text-align: center;">Mobile Application Developer</p>
+    <div style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; font-family: monospace; font-size: 10px; font-weight: bold; padding: 4px 10px; border-radius: 12px; letter-spacing: 1px;">
+      ASSIGNMENT 02 &bull; REACT NATIVE EXPO
     </div>
   </div>
 
-  <div style="width: 100%; background: #1c1d27; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 14px; border: 1px solid rgba(255, 255, 255, 0.06);">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span style="color: #ffffff; font-size: 14px; font-weight: 500;">Try editing</span>
-      <span style="background: #272836; color: #a1a1aa; font-family: monospace; font-size: 11px; padding: 4px 8px; border-radius: 6px;">src/app/index.tsx</span>
+  <div style="width: 100%; background: #1c1d27; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(255, 255, 255, 0.06);">
+    <div style="display: flex; align-items: center; gap: 8px; color: #ffffff; font-size: 13px; font-weight: 700;">
+      <span style="color: #38bdf8;">&#10024;</span> Implemented Features
     </div>
-    <div style="height: 1px; background: rgba(255, 255, 255, 0.06);"></div>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span style="color: #ffffff; font-size: 14px; font-weight: 500;">Dev tools</span>
-      <span style="background: #272836; color: #a1a1aa; font-family: monospace; font-size: 11px; padding: 4px 8px; border-radius: 6px;">press ctrl+m</span>
+    
+    <div style="background: #272836; border-radius: 10px; padding: 8px 12px;">
+      <div style="color: #ffffff; font-size: 12px; font-weight: 600;">1. Bottom Tab Navigation</div>
+      <div style="color: #a1a1aa; font-size: 11px;">Added a brand new Profile screen with full bottom tab integration.</div>
     </div>
-    <div style="height: 1px; background: rgba(255, 255, 255, 0.06);"></div>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <span style="color: #ffffff; font-size: 14px; font-weight: 500;">Fresh start</span>
-      <span style="background: #272836; color: #a1a1aa; font-family: monospace; font-size: 11px; padding: 4px 8px; border-radius: 6px;">npm run reset-project</span>
+
+    <div style="background: #272836; border-radius: 10px; padding: 8px 12px;">
+      <div style="color: #ffffff; font-size: 12px; font-weight: 600;">2. Custom Splash &amp; App Icon</div>
+      <div style="color: #a1a1aa; font-size: 11px;">Replaced default assets with custom Lumina neon fox branding.</div>
+    </div>
+
+    <div style="background: #272836; border-radius: 10px; padding: 8px 12px;">
+      <div style="color: #ffffff; font-size: 12px; font-weight: 600;">3. Themed Components</div>
+      <div style="color: #a1a1aa; font-size: 11px;">Strictly implemented ThemedView and ThemedText with dark/light mode.</div>
     </div>
   </div>
 
-  <div style="color: #52525b; font-size: 12px; font-family: monospace;">SDK 57 &bull; Lumina Framework</div>
+  <div style="width: 100%; background: #1c1d27; border-radius: 12px; padding: 10px 14px; border: 1px solid rgba(255, 255, 255, 0.05); font-size: 11px; color: #a1a1aa;">
+    <strong style="color: #ffffff;">Navigate Tabs:</strong> Home, Explore, and Profile tabs available below.
+  </div>
 </div>
 `;
 
@@ -214,7 +220,7 @@ const exploreContent = `
     <div style="background: #1c1d27; border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255, 255, 255, 0.05);">
       <div style="display: flex; align-items: center; gap: 10px;">
         <span style="color: #38bdf8;">&#9656;</span>
-        <span style="color: #ffffff; font-size: 14px; font-weight: 600;">File-based routing</span>
+        <span style="color: #ffffff; font-size: 14px; font-weight: 600;">File-based routing (3 Tabs)</span>
       </div>
       <span style="color: #71717a; font-size: 12px;">Expo Router</span>
     </div>
@@ -254,16 +260,16 @@ const exploreContent = `
 </div>
 `;
 
-// 4. Profile Screen (The newly added screen)
+// 4. Profile Screen (Muhammad Tayyab's Profile Tab Screen)
 const profileContent = `
 <div style="flex: 1; background: #12131a; display: flex; flex-direction: column; padding: 14px; gap: 12px;">
   <!-- Header Card -->
   <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
     <div style="position: relative; width: 76px; height: 76px; border-radius: 38px; background: linear-gradient(135deg, #38bdf8, #818cf8); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(56, 189, 248, 0.35);">
-      <span style="color: #ffffff; font-size: 26px; font-weight: 700;">AM</span>
+      <span style="color: #ffffff; font-size: 26px; font-weight: 700;">MT</span>
       <div style="position: absolute; bottom: 2px; right: 2px; width: 16px; height: 16px; border-radius: 50%; background: #22c55e; border: 2px solid #12131a;"></div>
     </div>
-    <h3 style="color: #ffffff; font-size: 20px; font-weight: 700;">Alex Morgan</h3>
+    <h3 style="color: #ffffff; font-size: 20px; font-weight: 700;">Muhammad Tayyab</h3>
     <span style="color: #a1a1aa; font-size: 12px;">Mobile Developer &amp; Explorer</span>
     <div style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 11px; font-weight: bold; padding: 3px 10px; border-radius: 10px;">
       &#10003; Pro Member
@@ -319,7 +325,7 @@ const profileContent = `
     <div style="background: #1c1d27; border-radius: 14px; padding: 8px 12px; border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 6px;">
       <div style="display: flex; justify-content: space-between; font-size: 12px;">
         <span style="color: #a1a1aa;">Application</span>
-        <span style="color: #ffffff; font-family: monospace;">Lumina Mobile App</span>
+        <span style="color: #ffffff; font-family: monospace;">Tayyab's Mobile App</span>
       </div>
       <div style="display: flex; justify-content: space-between; font-size: 12px;">
         <span style="color: #a1a1aa;">Runtime</span>

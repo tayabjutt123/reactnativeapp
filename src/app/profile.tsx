@@ -46,14 +46,14 @@ export default function ProfileScreen() {
           <ThemedView style={styles.avatarWrapper}>
             <ThemedView type="backgroundSelected" style={styles.avatarCircle}>
               <ThemedText type="title" style={styles.avatarText}>
-                AM
+                MT
               </ThemedText>
             </ThemedView>
             <ThemedView type="backgroundElement" style={styles.onlineBadge} />
           </ThemedView>
 
           <ThemedText type="subtitle" style={styles.nameText}>
-            Alex Morgan
+            Muhammad Tayyab
           </ThemedText>
           <ThemedText themeColor="textSecondary" style={styles.roleText}>
             Mobile Developer &amp; Explorer
@@ -234,7 +234,7 @@ export default function ProfileScreen() {
               <ThemedText type="small" themeColor="textSecondary">
                 Application
               </ThemedText>
-              <ThemedText type="code">Lumina Mobile App</ThemedText>
+              <ThemedText type="code">Tayyab&apos;s Mobile App</ThemedText>
             </ThemedView>
 
             <ThemedView style={styles.divider} />
